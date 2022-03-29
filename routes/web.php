@@ -27,11 +27,23 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth'])->name('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/rsm', function () {
-    return Inertia::render('Rsm/RatingScaleMatrix');
+Route::get('/pms/pcr', function () {
+    return Inertia::render('PMS/PCR/PerformanceCommitmentReport');
+})->middleware(['auth'])->name('pcr');
+
+Route::get('/pms/rpc', function () {
+    return Inertia::render('PMS/RPC/ReviewPerformanceCommitment');
+})->middleware(['auth'])->name('rpc');
+
+Route::get('/pms/pmt', function () {
+    return Inertia::render('PMS/PMT/PerformanceManagementTeam');
+})->middleware(['auth'])->name('pmt');
+
+Route::get('/pms/rsm', function () {
+    return Inertia::render('PMS/RSM/RatingScaleMatrix');
 })->middleware(['auth','rsm'])->name('rsm');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 require __DIR__.'/auth.php';
