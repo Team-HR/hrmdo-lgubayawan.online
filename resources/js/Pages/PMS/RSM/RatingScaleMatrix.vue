@@ -164,7 +164,7 @@
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                               >
-                                <i class="fa-solid fa-gear"></i>
+                                <i class="bi bi-gear"></i>
                               </button>
                               <ul
                                 class="dropdown-menu shadow-lg"
@@ -209,8 +209,7 @@
                                     :data-bs-mfos="
                                       JSON.stringify({
                                         mfo: item,
-                                        year: year,
-                                        period: period,
+                                        rating_period_id: rating_period.id
                                       })
                                     "
                                   >
@@ -329,7 +328,7 @@
                                 <br v-if="i + 1 !== item.incumbents.length" />
                               </div>
                             </td>
-                            <td style="vertical-align: middle">
+                            <td style="vertical-align: middle; text-align:center;">
                               <button
                                 class="btn btn-sm text-success"
                                 title="Edit success indicator"
@@ -337,12 +336,10 @@
                                 data-bs-target="#successIndicatorEditor"
                                 @click="edit_success_indicator(item.id)"
                               >
-                                <i
-                                  class="fa-solid fa-pen-to-square text-success"
-                                ></i>
+                                <i class="bi bi-pencil-square"></i>
                               </button>
                             </td>
-                            <td style="vertical-align: middle">
+                            <td style="vertical-align: middle; text-align:center;">
                               <button
                                 class="btn btn-sm text-danger"
                                 title="Delete success indicator"
@@ -351,7 +348,7 @@
                                 @click="deleteSuccessIndicator(item.id)"
                               >
                                 <!-- @click="add_success_indicator(item)" -->
-                                <i class="fa-solid fa-eraser text-danger"></i>
+                                <i class="bi bi-x-square"></i>
                               </button>
                             </td>
                           </template>
@@ -464,7 +461,7 @@ export default {
     },
     async save_edit_mfo() {
       await axios
-        .post("/api/rsm/save_edit_mfo", {
+        .post("/pms/rsm/saveEditMfo", {
           id: this.edit_mfo_item.id,
           code: this.edit_mfo_item.code,
           function: this.edit_mfo_item.function,
@@ -483,7 +480,7 @@ export default {
     },
     async submit_new_mfo() {
       await axios
-        .post("/pms/rsm/add_new_mfo", {
+        .post("/pms/rsm/addNewMfo", {
           new_mfo: this.new_mfo,
           period: this.period,
           year: this.year,

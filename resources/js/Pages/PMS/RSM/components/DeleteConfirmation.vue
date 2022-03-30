@@ -57,7 +57,7 @@ export default {
       // });
       axios({
         method: "post",
-        url: "/api/rsm/delete",
+        url: "/pms/rsm/delete",
         data: {
           success_indicator_id: this.success_indicator_id,
           rating_scale_matrix_id: this.rating_scale_matrix_id,

@@ -88,7 +88,7 @@ export default {
     saveSubFunction() {
       // console.log(this.mfo.rating_scale_matrix_id);
       axios
-        .post("/api/rsm/add_subfunction", {
+        .post("/pms/rsm/addSubFunction", {
           parent_id: this.mfo.rating_scale_matrix_id,
           code: this.code,
           function: this.mfoTitle,

@@ -56,12 +56,9 @@ export default {
             this.timeliness = [];
             this.incumbents = [];
             await axios
-                .get("/api/rsm/get_success_indicator", {
-                    params: {
-                        id: this.success_indicator_id,
-                    },
-                })
-                .then(({ data }) => {
+                .get("/pms/rsm/getSuccessIndicator/"+this.success_indicator_id)
+                .then(({data}) => {
+                    // console.log(data);
                     this.success_indicator = data.success_indicator;
 
                     /* remap incumbent array */
@@ -125,7 +122,7 @@ export default {
             // console.log("submitted payload:", payload);
             axios({
                 method: "post",
-                url: "/api/rsm/save_success_indicator",
+                url: "/pms/rsm/saveSuccessIndicator",
                 data: {
                     id: this.success_indicator_id,
                     rating_scale_matrix_id: this.rating_scale_matrix_id,
@@ -175,7 +172,7 @@ export default {
         */
         async get_employees_list() {
             await axios
-                .post("/api/employees", {
+                .post("/employees", {
                     name: this.employeeSearch,
                     excepts: this.incumbents,
                 })

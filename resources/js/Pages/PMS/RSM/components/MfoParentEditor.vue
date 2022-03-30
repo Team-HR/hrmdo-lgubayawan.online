@@ -74,21 +74,19 @@ export default {
       mfo: {},
       mfoParents: [],
       mfoIdToTransfer: 0,
-      year: 0,
-      period: 0,
+      rating_period_id: 0
     };
   },
   watch: {},
   methods: {
-    getMfoParents() {
+    get_mfo_parents() {
       axios
-        .post("/api/rsm/getMfoParents", {
+        .post("/pms/rsm/getMfoParents", {
           mfoIdToTransfer: this.mfoIdToTransfer,
-          year: this.year,
-          period: this.period,
+          rating_period_id: this.rating_period_id,
         })
         .then(({ data }) => {
-          console.log("getMfoParents:", data);
+          console.log("get_mfo_parents:", data);
           this.mfoParents = data;
         })
         .catch((err) => {
@@ -100,13 +98,13 @@ export default {
     },
     moveMfoHere(newMfoParentId) {
       axios
-        .post("/api/rsm/changeMfoParent", {
+        .post("/pms/rsm/changeMfoParent", {
           mfoIdToTransfer: this.mfoIdToTransfer,
           newParentId: newMfoParentId,
         })
         .then(({ data }) => {
           // console.log(data)
-          this.getMfoParents();
+          this.get_mfo_parents();
           this.$emit("transferedMfo");
         })
         .catch((err) => {
@@ -115,12 +113,12 @@ export default {
     },
     removeMfoParent() {
       axios
-        .post("/api/rsm/removeMfoParent", {
+        .post("/pms/rsm/removeMfoParent", {
           mfoIdToTransfer: this.mfoIdToTransfer
         })
         .then(({ data }) => {
           // console.log(data)
-          this.getMfoParents();
+          this.get_mfo_parents();
           this.$emit("transferedMfo");
         })
         .catch((err) => {
@@ -143,9 +141,8 @@ export default {
       mfos = JSON.parse(mfos);
       this.mfoIdToTransfer = mfos.mfo.rating_scale_matrix_id;
       this.mfo = mfos.mfo;
-      this.year = mfos.year;
-      this.period = mfos.period;
-      this.getMfoParents();
+      this.rating_period_id = mfos.rating_period_id
+      this.get_mfo_parents();
     });
 
     /* 

@@ -23715,16 +23715,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['href', 'active'],
+  props: ["href", "active"],
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
     var props = __props;
     var classes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-      return props.active ? 'nav-link me-4 active border-b-2 border-green-400' : 'nav-link me-4';
+      return props.active ? "nav-link me-4 active border-b-2 border-green-400" : "nav-link me-4";
     }); // ? 'inline-flex items-center px-1 pt-1 border-b-2 border-green-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition  duration-150 ease-in-out'
     //     : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'
 
@@ -23732,7 +23734,8 @@ __webpack_require__.r(__webpack_exports__);
       props: props,
       classes: classes,
       computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed,
-      Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Link
+      Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Link,
+      Inertia: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -23955,6 +23958,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_NavItem_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Components/NavItem.vue */ "./resources/js/Components/NavItem.vue");
 /* harmony import */ var _Components_ResponsiveNavLink_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Components/ResponsiveNavLink.vue */ "./resources/js/Components/ResponsiveNavLink.vue");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
 
 
 
@@ -23968,16 +23973,28 @@ __webpack_require__.r(__webpack_exports__);
     var expose = _ref.expose;
     expose();
     var showingNavigationDropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var rsm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      // return page.props.auth.user.role
+      if (!_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_8__.Inertia.page.props.auth.user.roles) {
+        return false;
+      }
+
+      var roles = JSON.parse(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_8__.Inertia.page.props.auth.user.roles);
+      return roles.includes('rsm') ? true : false;
+    });
     var __returned__ = {
       showingNavigationDropdown: showingNavigationDropdown,
+      rsm: rsm,
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
+      computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed,
       BreezeApplicationLogo: _Components_ApplicationLogo_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
       BreezeDropdown: _Components_Dropdown_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
       BreezeDropdownLink: _Components_DropdownLink_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
       BreezeNavLink: _Components_NavLink_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
       NavItem: _Components_NavItem_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
       BreezeResponsiveNavLink: _Components_ResponsiveNavLink_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
-      Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_7__.Link
+      Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_7__.Link,
+      Inertia: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_8__.Inertia
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -24696,7 +24713,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.post("/api/rsm/save_edit_mfo", {
+                return axios.post("/pms/rsm/saveEditMfo", {
                   id: _this.edit_mfo_item.id,
                   code: _this.edit_mfo_item.code,
                   "function": _this.edit_mfo_item["function"]
@@ -24733,7 +24750,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.post("/pms/rsm/add_new_mfo", {
+                return axios.post("/pms/rsm/addNewMfo", {
                   new_mfo: _this2.new_mfo,
                   period: _this2.period,
                   year: _this2.year
@@ -24841,7 +24858,7 @@ __webpack_require__.r(__webpack_exports__);
       // });
       axios({
         method: "post",
-        url: "/api/rsm/delete",
+        url: "/pms/rsm/delete",
         data: {
           success_indicator_id: this.success_indicator_id,
           rating_scale_matrix_id: this.rating_scale_matrix_id
@@ -24892,7 +24909,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       // console.log(this.mfo.rating_scale_matrix_id);
-      axios.post("/api/rsm/add_subfunction", {
+      axios.post("/pms/rsm/addSubFunction", {
         parent_id: this.mfo.rating_scale_matrix_id,
         code: this.code,
         "function": this.mfoTitle,
@@ -24958,22 +24975,20 @@ __webpack_require__.r(__webpack_exports__);
       mfo: {},
       mfoParents: [],
       mfoIdToTransfer: 0,
-      year: 0,
-      period: 0
+      rating_period_id: 0
     };
   },
   watch: {},
   methods: {
-    getMfoParents: function getMfoParents() {
+    get_mfo_parents: function get_mfo_parents() {
       var _this = this;
 
-      axios.post("/api/rsm/getMfoParents", {
+      axios.post("/pms/rsm/getMfoParents", {
         mfoIdToTransfer: this.mfoIdToTransfer,
-        year: this.year,
-        period: this.period
+        rating_period_id: this.rating_period_id
       }).then(function (_ref) {
         var data = _ref.data;
-        console.log("getMfoParents:", data);
+        console.log("get_mfo_parents:", data);
         _this.mfoParents = data;
       })["catch"](function (err) {
         console.error(err);
@@ -24985,14 +25000,14 @@ __webpack_require__.r(__webpack_exports__);
     moveMfoHere: function moveMfoHere(newMfoParentId) {
       var _this2 = this;
 
-      axios.post("/api/rsm/changeMfoParent", {
+      axios.post("/pms/rsm/changeMfoParent", {
         mfoIdToTransfer: this.mfoIdToTransfer,
         newParentId: newMfoParentId
       }).then(function (_ref2) {
         var data = _ref2.data;
 
         // console.log(data)
-        _this2.getMfoParents();
+        _this2.get_mfo_parents();
 
         _this2.$emit("transferedMfo");
       })["catch"](function (err) {
@@ -25002,13 +25017,13 @@ __webpack_require__.r(__webpack_exports__);
     removeMfoParent: function removeMfoParent() {
       var _this3 = this;
 
-      axios.post("/api/rsm/removeMfoParent", {
+      axios.post("/pms/rsm/removeMfoParent", {
         mfoIdToTransfer: this.mfoIdToTransfer
       }).then(function (_ref3) {
         var data = _ref3.data;
 
         // console.log(data)
-        _this3.getMfoParents();
+        _this3.get_mfo_parents();
 
         _this3.$emit("transferedMfo");
       })["catch"](function (err) {
@@ -25033,10 +25048,9 @@ __webpack_require__.r(__webpack_exports__);
       mfos = JSON.parse(mfos);
       _this4.mfoIdToTransfer = mfos.mfo.rating_scale_matrix_id;
       _this4.mfo = mfos.mfo;
-      _this4.year = mfos.year;
-      _this4.period = mfos.period;
+      _this4.rating_period_id = mfos.rating_period_id;
 
-      _this4.getMfoParents();
+      _this4.get_mfo_parents();
     });
     /* 
         everytime the modal hides the data are cleared!
@@ -25668,7 +25682,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href", "active"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+  , ["href", "active"]), $setup.rsm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["NavItem"], {
+    key: 0,
     href: _ctx.route('rsm'),
     active: _ctx.route().current('rsm')
   }, {
@@ -25680,7 +25695,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href", "active"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form class=\"d-flex\">\r\n              <input\r\n                class=\"form-control me-2\"\r\n                type=\"search\"\r\n                placeholder=\"Search\"\r\n                aria-label=\"Search\"\r\n              />\r\n              <button class=\"btn btn-outline-success\" type=\"submit\">\r\n                Search\r\n              </button>\r\n            </form> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+  , ["href", "active"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form class=\"d-flex\">\r\n              <input\r\n                class=\"form-control me-2\"\r\n                type=\"search\"\r\n                placeholder=\"Search\"\r\n                aria-label=\"Search\"\r\n              />\r\n              <button class=\"btn btn-outline-success\" type=\"submit\">\r\n                Search\r\n              </button>\r\n            </form> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
     href: _ctx.route('logout'),
     "class": "btn btn-danger",
     method: "post",
@@ -26866,7 +26881,7 @@ var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   "data-bs-toggle": "dropdown",
   "aria-expanded": "false"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa-solid fa-gear"
+  "class": "bi bi-gear"
 })], -1
 /* HOISTED */
 );
@@ -27016,13 +27031,14 @@ var _hoisted_70 = {
 };
 var _hoisted_71 = {
   style: {
-    "vertical-align": "middle"
+    "vertical-align": "middle",
+    "text-align": "center"
   }
 };
 var _hoisted_72 = ["onClick"];
 
 var _hoisted_73 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa-solid fa-pen-to-square text-success"
+  "class": "bi bi-pencil-square"
 }, null, -1
 /* HOISTED */
 );
@@ -27030,13 +27046,14 @@ var _hoisted_73 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_74 = [_hoisted_73];
 var _hoisted_75 = {
   style: {
-    "vertical-align": "middle"
+    "vertical-align": "middle",
+    "text-align": "center"
   }
 };
 var _hoisted_76 = ["onClick"];
 
 var _hoisted_77 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa-solid fa-eraser text-danger"
+  "class": "bi bi-x-square"
 }, null, -1
 /* HOISTED */
 );
@@ -27111,7 +27128,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onTransferedMfo: _cache[3] || (_cache[3] = function ($event) {
           return $options.getItems();
         })
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" \n    Edit MFO start\n   "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" \r\n    Edit MFO start\r\n   "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
         id: "form_edit_mfo",
         onSubmit: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
           return $options.save_edit_mfo();
@@ -27139,7 +27156,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* NEED_PATCH */
       ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.edit_mfo_item["function"]]]), _hoisted_18])])])]), _hoisted_19])], 32
       /* HYDRATE_EVENTS */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" \n    Edit MFO end\n   "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"card-header text-center\">\n                    <h3>Rating Scale Matrix</h3>\n                    <h5 class=\"text-red\">{{}}</h5>\n                    <h5 class=\"text-red\">\n                      {{\n                        (period == 1 ? \"January-June\" : \"July-December\") +\n                        \", \" +\n                        year\n                      }}\n                    </h5>\n                  </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [$props.items.length < 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_26, _hoisted_28)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.items, function (item, i) {
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" \r\n    Edit MFO end\r\n   "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"card-header text-center\">\r\n                    <h3>Rating Scale Matrix</h3>\r\n                    <h5 class=\"text-red\">{{}}</h5>\r\n                    <h5 class=\"text-red\">\r\n                      {{\r\n                        (period == 1 ? \"January-June\" : \"July-December\") +\r\n                        \", \" +\r\n                        year\r\n                      }}\r\n                    </h5>\r\n                  </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [$props.items.length < 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_26, _hoisted_28)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.items, function (item, i) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
           key: i
         }, [item.code ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", {
@@ -27175,8 +27192,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "data-bs-target": "#mfoParentEditor",
           "data-bs-mfos": JSON.stringify({
             mfo: item,
-            year: $data.year,
-            period: $data.period
+            rating_period_id: $props.rating_period.id
           })
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" @click=\"editMfoParent(item)\" "), _hoisted_44, _hoisted_45], 8
         /* PROPS */
@@ -28207,12 +28223,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.timeliness = [];
                 _this.incumbents = [];
                 _context.next = 7;
-                return axios.get("/api/rsm/get_success_indicator", {
-                  params: {
-                    id: _this.success_indicator_id
-                  }
-                }).then(function (_ref) {
+                return axios.get("/pms/rsm/getSuccessIndicator/" + _this.success_indicator_id).then(function (_ref) {
                   var data = _ref.data;
+                  // console.log(data);
                   _this.success_indicator = data.success_indicator;
                   /* remap incumbent array */
 
@@ -28292,7 +28305,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // console.log("submitted payload:", payload);
       axios({
         method: "post",
-        url: "/api/rsm/save_success_indicator",
+        url: "/pms/rsm/saveSuccessIndicator",
         data: {
           id: this.success_indicator_id,
           rating_scale_matrix_id: this.rating_scale_matrix_id,
@@ -28352,7 +28365,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.post("/api/employees", {
+                return axios.post("/employees", {
                   name: _this3.employeeSearch,
                   excepts: _this3.incumbents
                 }).then(function (_ref3) {
@@ -28499,10 +28512,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -49573,6 +49586,19 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
+/***/ "./resources/sass/app.scss":
+/*!*********************************!*\
+  !*** ./resources/sass/app.scss ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/css/app.css":
 /*!*******************************!*\
   !*** ./resources/css/app.css ***!
@@ -51915,10 +51941,10 @@ try {
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -51928,7 +51954,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_style_index_0_id_317d1a6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_style_index_0_id_317d1a6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css");
 
             
 
@@ -51937,11 +51963,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_style_index_0_id_317d1a6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_style_index_0_id_317d1a6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_style_index_0_id_317d1a6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_style_index_0_id_317d1a6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -54159,7 +54185,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_style_index_0_id_317d1a6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_style_index_0_id_317d1a6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=style&index=0&id=317d1a6e&scoped=true&lang=css");
 
 
 /***/ }),
@@ -55299,6 +55325,7 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\zenitsu\\
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
 /******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	

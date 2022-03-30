@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref,computed } from "vue";
 import BreezeApplicationLogo from "@/Components/ApplicationLogo.vue";
 import BreezeDropdown from "@/Components/Dropdown.vue";
 import BreezeDropdownLink from "@/Components/DropdownLink.vue";
@@ -7,8 +7,18 @@ import BreezeNavLink from "@/Components/NavLink.vue";
 import NavItem from "@/Components/NavItem.vue";
 import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/inertia-vue3";
+import { Inertia } from "@inertiajs/inertia";
 
 const showingNavigationDropdown = ref(false);
+const rsm = computed(() => {
+  // return page.props.auth.user.role
+  if (!Inertia.page.props.auth.user.roles) {
+      return false;
+  }
+  const roles = JSON.parse(Inertia.page.props.auth.user.roles)
+  return roles.includes('rsm')?true:false;
+});
+
 </script>
 
 <template>
@@ -55,6 +65,7 @@ const showingNavigationDropdown = ref(false);
                 Performance Management Team
               </NavItem>
               <NavItem
+                 v-if="rsm" 
                 :href="route('rsm')"
                 :active="route().current('rsm')"
               >

@@ -17,20 +17,20 @@ class RatingScaleMatrixController extends Controller
     public $mfos = [];
 
 
-    public function test()
+    public function test($id)
     {
-        $data = [];
-        $ratingScaleMatrix = RatingScaleMatrix::select('id', 'parent_id', 'code', 'function')
-            ->where('parent_id', '=', null)
-            ->orderBy('code')
-            ->get();
-        $data = $ratingScaleMatrix;
-        return response()->json($data);
+        // $data = [];
+        // $ratingScaleMatrix = RatingScaleMatrix::select('id', 'parent_id', 'code', 'function')
+        //     ->where('parent_id', '=', null)
+        //     ->orderBy('code')
+        //     ->get();
+        // $data = $ratingScaleMatrix;
+        return response()->json($id);
     }
 
     public function index()
     {
-        return inertia('PMS/RSM/Index',[
+        return inertia('PMS/RSM/Index', [
             // 'mfos' => $items
         ]);
     }
@@ -41,7 +41,7 @@ class RatingScaleMatrixController extends Controller
 
         $mfoIdToTransfer = $request->mfoIdToTransfer;
 
-        $ratingScaleMatrices = $this->getRatingScaleMatrix($request)->original;
+        $ratingScaleMatrices = $this->getRatingScaleMatrix($request->rating_period_id);
 
         foreach ($ratingScaleMatrices as $rsm) {
             if (isset($rsm['code'])) {
@@ -115,7 +115,7 @@ class RatingScaleMatrixController extends Controller
         return response()->json($rsm);
     }
 
-    public function add_subfunction(Request $request)
+    public function addSubFunction(Request $request)
     {
         $rsm = RatingScaleMatrix::create([
             'parent_id' => $request->parent_id,
@@ -134,8 +134,8 @@ class RatingScaleMatrixController extends Controller
         $rating_period = RatingPeriod::find($id);
 
 
-        $period = 1;
-        $year = 2022;
+        $period = $rating_period['period'];
+        $year = $rating_period['year'];
 
         $parent_mfos = RatingScaleMatrix::select('*')
             ->where('parent_id', '=', NULL)
@@ -211,6 +211,13 @@ class RatingScaleMatrixController extends Controller
 
 
         // return response()->json($items);
+        return $items;
+    }
+
+    public function show($id)
+    {
+        $rating_period = RatingPeriod::find($id);
+        $items = $this->getRatingScaleMatrix($id);
         return inertia('PMS/RSM/RatingScaleMatrix',[
             'rating_period' => $rating_period,
             'items' => $items
@@ -299,9 +306,9 @@ class RatingScaleMatrixController extends Controller
     /* 
         Getting success indicator data
     */
-    public function get_success_indicator(Request $request)
+    public function getSuccessIndicator($id)
     {
-        $id = $request->id;
+        // $id = $request->id;
 
         $rsm_indicator = RatingScaleMatrixSuccessIndicator::find($id);
 
@@ -311,7 +318,7 @@ class RatingScaleMatrixController extends Controller
     /* 
         Save success indicators new additions and edits
     */
-    public function save_success_indicator(Request $request)
+    public function saveSuccessIndicator(Request $request)
     {
 
         $id = $request->id;
@@ -432,7 +439,7 @@ class RatingScaleMatrixController extends Controller
     }
 
 
-    public function add_new_mfo(Request $request)
+    public function addNewMfo(Request $request)
     {
         $department_id = auth()->user()->department_id;
         $period = $request->period;
@@ -449,7 +456,7 @@ class RatingScaleMatrixController extends Controller
         return  response()->json($mfo);
     }
 
-    public function save_edit_mfo(Request $request)
+    public function saveEditMfo(Request $request)
     {
         // $department_id = auth()->user()->department_id;
         $id = $request->id;
@@ -503,10 +510,10 @@ class RatingScaleMatrixController extends Controller
      * @param  \App\Models\RatingScaleMatrix  $ratingScaleMatrix
      * @return \Illuminate\Http\Response
      */
-    public function show(RatingScaleMatrix $ratingScaleMatrix)
-    {
-        //
-    }
+    // public function show(RatingScaleMatrix $ratingScaleMatrix)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.

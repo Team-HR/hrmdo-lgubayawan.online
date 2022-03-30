@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +43,33 @@ Route::get('/getRatingPeriods', function () {
     }
     return response()->json($data);
 })->middleware(['auth']);
+
+
+Route::post('/employees', function (Request $request) {
+    $items = [];
+
+    $excepts = $request->excepts;
+    foreach ($excepts as $key => $employee) {
+        $excepts[$key] = $employee['id'];
+    }
+
+    $items = App\Models\Employee::select('*')
+        ->where('last_name', 'like', '%' . $request->name . '%')
+        ->orWhere('first_name', 'like', '%' . $request->name . '%')
+        ->get();
+
+    $data = [];
+    foreach ($items as $key => $employee) {
+        if (!in_array($employee->id, $excepts)) {
+            $data[] = [
+                'id' => $employee->id,
+                'full_name' => $employee->full_name,
+            ];
+        }
+    }
+
+    return response()->json($data);
+});
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/pms.php';
