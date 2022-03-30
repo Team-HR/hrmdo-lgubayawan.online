@@ -28,22 +28,20 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/pms/pcr', function () {
-    return Inertia::render('PMS/PCR/PerformanceCommitmentReport');
-})->middleware(['auth'])->name('pcr');
+Route::get('/getRatingPeriods', function () {
+    $periods = App\Models\RatingPeriod::select('*')->orderByDesc('year')->get();
+    $data = [];
+    foreach ($periods as $period) {
+        if (!in_array($period['year'], array_column($data, 'year'))) {
+            $data[] = [
+                'year' => $period['year'],
+                'first' => App\Models\RatingPeriod::select('*')->where('year', '=', $period['year'])->where('period', '=', 1)->first(),
+                'second' => App\Models\RatingPeriod::select('*')->where('year', '=', $period['year'])->where('period', '=', 2)->first()
+            ];
+        }
+    }
+    return response()->json($data);
+})->middleware(['auth']);
 
-Route::get('/pms/rpc', function () {
-    return Inertia::render('PMS/RPC/ReviewPerformanceCommitment');
-})->middleware(['auth'])->name('rpc');
-
-Route::get('/pms/pmt', function () {
-    return Inertia::render('PMS/PMT/PerformanceManagementTeam');
-})->middleware(['auth'])->name('pmt');
-
-Route::get('/pms/rsm', function () {
-    return Inertia::render('PMS/RSM/RatingScaleMatrix');
-})->middleware(['auth','rsm'])->name('rsm');
-
-
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/pms.php';

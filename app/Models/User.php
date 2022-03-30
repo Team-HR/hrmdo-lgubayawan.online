@@ -41,4 +41,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['department_id'];
+
+    /**
+     * Determine if the user is an administrator.
+     *
+     * @return int
+     */
+    public function getDepartmentIdAttribute()
+    {
+        
+        $employee = Employee::find($this->employee_id);
+        if (!$employee) {
+            return null;
+        }
+        return $employee->department_id;
+    }
 }

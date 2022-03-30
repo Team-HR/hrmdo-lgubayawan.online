@@ -595,6 +595,9 @@ select {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.static {
+  position: static;
+}
 .fixed {
   position: fixed;
 }
@@ -628,9 +631,22 @@ select {
 .z-40 {
   z-index: 40;
 }
+.col-auto {
+  grid-column: auto;
+}
+.m-5 {
+  margin: 1.25rem;
+}
+.m-0 {
+  margin: 0px;
+}
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .ml-3 {
   margin-left: 0.75rem;
@@ -683,6 +699,9 @@ select {
 .mb-2 {
   margin-bottom: 0.5rem;
 }
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
 .block {
   display: block;
 }
@@ -691,6 +710,9 @@ select {
 }
 .inline-flex {
   display: inline-flex;
+}
+.table {
+  display: table;
 }
 .grid {
   display: grid;
@@ -910,6 +932,9 @@ select {
 .p-2 {
   padding: 0.5rem;
 }
+.p-0 {
+  padding: 0px;
+}
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -945,6 +970,10 @@ select {
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 .pt-8 {
   padding-top: 2rem;
