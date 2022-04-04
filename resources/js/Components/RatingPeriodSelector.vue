@@ -72,7 +72,7 @@ export default {
         method: "get",
         url: "/getRatingPeriods",
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         this.periods = data;
       });
     },

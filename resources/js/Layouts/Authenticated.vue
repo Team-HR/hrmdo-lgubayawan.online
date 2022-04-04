@@ -1,5 +1,5 @@
-<script setup>
-import { ref,computed } from "vue";
+<script>
+import { ref, computed } from "vue";
 import BreezeApplicationLogo from "@/Components/ApplicationLogo.vue";
 import BreezeDropdown from "@/Components/Dropdown.vue";
 import BreezeDropdownLink from "@/Components/DropdownLink.vue";
@@ -9,16 +9,57 @@ import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 
-const showingNavigationDropdown = ref(false);
-const rsm = computed(() => {
-  // return page.props.auth.user.role
-  if (!Inertia.page.props.auth.user.roles) {
-      return false;
-  }
-  const roles = JSON.parse(Inertia.page.props.auth.user.roles)
-  return roles.includes('rsm')?true:false;
-});
+export default {
+  data() {
+    return {
+      pages: [
+        {
+          name: "pcr",
+          children: ["pcr.show", "pcr.sig"],
+        },
+      ],
+    };
+  },
+  components: {
+    BreezeApplicationLogo,
+    BreezeDropdown,
+    BreezeDropdownLink,
+    BreezeNavLink,
+    NavItem,
+    BreezeResponsiveNavLink,
+    Link,
+  },
+  computed: {
+    rsm() {
+      if (!Inertia.page.props.auth.user.roles) {
+        return false;
+      }
+      const roles = JSON.parse(Inertia.page.props.auth.user.roles);
+      return roles.includes("rsm") ? true : false;
+    },
+  },
+  methods: {
+    currentPage(pageName) {
+      let isCurrent = false;
+      let page = {};
+      for (let index = 0; index < this.pages.length; index++) {
+        if (this.pages[index].name == pageName) {
+          page = this.pages[index];
+          break;
+        }
+      }
 
+      isCurrent = route().current(page.name);
+      page.children.forEach((child) => {
+        if (route().current(child)) {
+          isCurrent = true;
+        }
+      });
+
+      return isCurrent;
+    },
+  },
+};
 </script>
 
 <template>
@@ -46,28 +87,19 @@ const rsm = computed(() => {
               >
                 Dashboard
               </NavItem>
-              <NavItem
-                :href="route('pcr')"
-                :active="route().current('pcr')"
-              >
-                Performance Commitment Report
+              <NavItem :href="route('pcr')" :active="currentPage('pcr')">
+                Performance Review
               </NavItem>
-              <NavItem
-                :href="route('rpc')"
-                :active="route().current('rpc')"
-              >
+              <NavItem :href="route('rpc')" :active="route().current('rpc')">
                 Review Performance Commitment
               </NavItem>
-              <NavItem
-                :href="route('pmt')"
-                :active="route().current('pmt')"
-              >
+              <NavItem :href="route('pmt')" :active="route().current('pmt')">
                 Performance Management Team
               </NavItem>
               <NavItem
-                 v-if="rsm" 
+                v-if="rsm"
                 :href="route('rsm')"
-                :active="route().current('rsm')"
+                :active="route().current('rsm') || route().current('rsm.show')"
               >
                 Rating Scale Matrix
               </NavItem>

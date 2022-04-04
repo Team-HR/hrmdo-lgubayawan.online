@@ -14,7 +14,7 @@
     <div class="py-12">
       <!-- <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"> -->
       <div>
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="bg-white _overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 bg-white border-b border-gray-200">
             <!-- content start -->
             <SuccessIndicatorEditor
@@ -148,12 +148,14 @@
                         </tr>
                         <tr v-for="(item, i) in items" :key="i">
                           <td
-                            style="vertical-align: middle"
+                            style="vertical-align: middle; text-align:center;"
                             v-if="item.code"
                             :rowspan="item.rowspan"
+                            width="20"
                           >
                             <span class="dropdown">
                               <button
+                                :style="'margin-left:'+(item.indent*50)+'px;'"
                                 class="
                                   btn btn-sm btn-light
                                   dropdown-toggle
@@ -164,7 +166,7 @@
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                               >
-                                <i class="bi bi-gear"></i>
+                                <i class="bi bi-gear"></i> Config
                               </button>
                               <ul
                                 class="dropdown-menu shadow-lg"

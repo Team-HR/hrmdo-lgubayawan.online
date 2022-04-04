@@ -67,9 +67,10 @@ Route::post('/employees', function (Request $request) {
             ];
         }
     }
-
     return response()->json($data);
 });
+
+
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/pms.php';
