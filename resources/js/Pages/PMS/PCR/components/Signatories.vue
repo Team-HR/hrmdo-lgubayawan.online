@@ -11,20 +11,20 @@ export default {
   data() {
     return {
       formData: {
-        employeeType: "",
-        pcrType: "",
+        employee_type: "",
+        form_type: "",
         immediateSupervisor: {},
         departmentHead: {},
         headOfAgency: {},
       },
       formInputs: {
-        employeeTypes: ["lgu", "nga"],
-        pcrTypes: ["ipcr", "spcr", "division", "dpcr"],
+        employee_types: ["lgu", "nga"],
+        form_types: ["ipcr", "spcr", "division", "dpcr"],
       },
     };
   },
   watch: {
-    "formData.pcrType"(newValue, oldValue) {
+    "formData.form_type"(newValue, oldValue) {
       if (newValue == "dpcr") {
         this.formData.immediateSupervisor = {};
         this.formData.departmentHead = {};
@@ -38,8 +38,34 @@ export default {
     HeadOfAgencyPicker,
   },
   methods: {
+    async getSignatoryData() {
+     await axios
+        .get("/pms/pcr/signatories", {
+          params: {
+            rating_period_id: this.rating_period_id,
+          },
+        })
+        .then(({ data }) => {
+          console.log(data);
+          this.formData.employee_type = data.employee_type
+          this.formData.form_type = data.form_type
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     submitForm() {
       console.log(this.formData);
+      axios.post('/pms/pcr/signatories/store',{
+        rating_period_id: this.rating_period_id,
+        form_data: this.formData
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.error(err); 
+      })
     },
     setImmediateSupervisor(event) {
       console.log(event);
@@ -52,6 +78,9 @@ export default {
       this.formData.headOfAgency = event;
     },
   },
+  mounted() {
+    this.getSignatoryData()
+  },
 };
 </script>
 
@@ -63,17 +92,17 @@ export default {
         <div class="mb-2">
           <label class="form-label">Employed as:</label>
           <div
-            v-for="(type, e) in formInputs.employeeTypes"
+            v-for="(type, e) in formInputs.employee_types"
             :key="e"
             class="form-check"
           >
             <input
               class="form-check-input"
               type="radio"
-              name="employeeTypes"
+              name="employee_types"
               :id="type"
               :value="type"
-              v-model="formData.employeeType"
+              v-model="formData.employee_type"
             />
             <label class="form-check-label" :for="type">
               {{ `${type.toUpperCase()} Employee` }}
@@ -83,39 +112,37 @@ export default {
 
         <label class="form-label">PCR Type:</label>
         <div
-          v-for="(pcrType, e) in formInputs.pcrTypes"
+          v-for="(form_type, e) in formInputs.form_types"
           :key="e"
           class="form-check"
         >
           <input
             class="form-check-input"
             type="radio"
-            name="pcrTypes"
-            :id="pcrType"
-            :value="pcrType"
-            v-model="formData.pcrType"
+            name="form_types"
+            :id="form_type"
+            :value="form_type"
+            v-model="formData.form_type"
           />
-          <label class="form-check-label" :for="pcrType">
-            {{ pcrType.toUpperCase() }}
+          <label class="form-check-label" :for="form_type">
+            {{ form_type.toUpperCase() }}
           </label>
         </div>
 
         <ImmediateSupervisorPicker
-          v-if="formData.pcrType !== 'dpcr'"
+          v-if="formData.form_type !== 'dpcr'"
           class="mt-2"
           label="Immediate Supervisor"
           @pickedEmployee="setImmediateSupervisor($event)"
         >
-
         </ImmediateSupervisorPicker>
 
         <DepartmentHeadPicker
-          v-if="formData.pcrType !== 'dpcr'"
+          v-if="formData.form_type !== 'dpcr'"
           class="mt-2"
           label="Department Head"
           @pickedEmployee="setDepartmentHead($event)"
         >
-        
         </DepartmentHeadPicker>
 
         <HeadOfAgencyPicker
@@ -123,7 +150,6 @@ export default {
           label="Head of Agency"
           @pickedEmployee="setHeadOfAgency($event)"
         >
-
         </HeadOfAgencyPicker>
 
         <button class="btn btn-secondary mt-5" type="submit">Save</button>

@@ -24581,6 +24581,14 @@ __webpack_require__.r(__webpack_exports__);
       employeePicked: {}
     };
   },
+  watch: {
+    employeeSearch: function employeeSearch(newValue, oldValue) {
+      if (!newValue) {
+        this.employeeSearchResults = [];
+        this.$emit("pickedEmployee", {});
+      }
+    }
+  },
   methods: {
     getEmployees: function getEmployees() {
       var _this = this;
@@ -24644,8 +24652,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Pages_PMS_PCR_PerformanceCommitmentReport_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Pages/PMS/PCR/PerformanceCommitmentReport.vue */ "./resources/js/Pages/PMS/PCR/PerformanceCommitmentReport.vue");
-/* harmony import */ var _Pages_PMS_PCR_components_EmployeePicker_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Pages/PMS/PCR/components/EmployeePicker.vue */ "./resources/js/Pages/PMS/PCR/components/EmployeePicker.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Pages_PMS_PCR_PerformanceCommitmentReport_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Pages/PMS/PCR/PerformanceCommitmentReport.vue */ "./resources/js/Pages/PMS/PCR/PerformanceCommitmentReport.vue");
+/* harmony import */ var _Pages_PMS_PCR_components_EmployeePicker_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Pages/PMS/PCR/components/EmployeePicker.vue */ "./resources/js/Pages/PMS/PCR/components/EmployeePicker.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -24657,20 +24673,20 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       formData: {
-        employeeType: "",
-        pcrType: "",
+        employee_type: "",
+        form_type: "",
         immediateSupervisor: {},
         departmentHead: {},
         headOfAgency: {}
       },
       formInputs: {
-        employeeTypes: ["lgu", "nga"],
-        pcrTypes: ["ipcr", "spcr", "division", "dpcr"]
+        employee_types: ["lgu", "nga"],
+        form_types: ["ipcr", "spcr", "division", "dpcr"]
       }
     };
   },
   watch: {
-    "formData.pcrType": function formDataPcrType(newValue, oldValue) {
+    "formData.form_type": function formDataForm_type(newValue, oldValue) {
       if (newValue == "dpcr") {
         this.formData.immediateSupervisor = {};
         this.formData.departmentHead = {};
@@ -24678,14 +24694,52 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    PerformanceCommitmentReport: _Pages_PMS_PCR_PerformanceCommitmentReport_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    ImmediateSupervisorPicker: _Pages_PMS_PCR_components_EmployeePicker_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    DepartmentHeadPicker: _Pages_PMS_PCR_components_EmployeePicker_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    HeadOfAgencyPicker: _Pages_PMS_PCR_components_EmployeePicker_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    PerformanceCommitmentReport: _Pages_PMS_PCR_PerformanceCommitmentReport_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    ImmediateSupervisorPicker: _Pages_PMS_PCR_components_EmployeePicker_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    DepartmentHeadPicker: _Pages_PMS_PCR_components_EmployeePicker_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    HeadOfAgencyPicker: _Pages_PMS_PCR_components_EmployeePicker_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   methods: {
+    getSignatoryData: function getSignatoryData() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/pms/pcr/signatories", {
+                  params: {
+                    rating_period_id: _this.rating_period_id
+                  }
+                }).then(function (_ref) {
+                  var data = _ref.data;
+                  console.log(data);
+                  _this.formData.employee_type = data.employee_type;
+                  _this.formData.form_type = data.form_type;
+                })["catch"](function (err) {
+                  console.error(err);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
     submitForm: function submitForm() {
       console.log(this.formData);
+      axios.post('/pms/pcr/signatories/store', {
+        rating_period_id: this.rating_period_id,
+        form_data: this.formData
+      }).then(function (res) {
+        console.log(res);
+      })["catch"](function (err) {
+        console.error(err);
+      });
     },
     setImmediateSupervisor: function setImmediateSupervisor(event) {
       console.log(event);
@@ -24697,6 +24751,9 @@ __webpack_require__.r(__webpack_exports__);
     setHeadOfAgency: function setHeadOfAgency(event) {
       this.formData.headOfAgency = event;
     }
+  },
+  mounted: function mounted() {
+    this.getSignatoryData();
   }
 });
 
@@ -27001,22 +27058,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return $options.submitForm();
         }, ["prevent"])),
         id: "sigForm"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.formInputs.employeeTypes, function (type, e) {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.formInputs.employee_types, function (type, e) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: e,
           "class": "form-check"
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
           "class": "form-check-input",
           type: "radio",
-          name: "employeeTypes",
+          name: "employee_types",
           id: type,
           value: type,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-            return $data.formData.employeeType = $event;
+            return $data.formData.employee_type = $event;
           })
         }, null, 8
         /* PROPS */
-        , _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.formData.employeeType]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        , _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.formData.employee_type]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
           "class": "form-check-label",
           "for": type
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(type.toUpperCase(), " Employee")), 9
@@ -27024,37 +27081,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         , _hoisted_5)]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))]), _hoisted_6, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.formInputs.pcrTypes, function (pcrType, e) {
+      ))]), _hoisted_6, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.formInputs.form_types, function (form_type, e) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: e,
           "class": "form-check"
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
           "class": "form-check-input",
           type: "radio",
-          name: "pcrTypes",
-          id: pcrType,
-          value: pcrType,
+          name: "form_types",
+          id: form_type,
+          value: form_type,
           "onUpdate:modelValue": function onUpdateModelValue($event) {
-            return $data.formData.pcrType = $event;
+            return $data.formData.form_type = $event;
           }
         }, null, 8
         /* PROPS */
-        , _hoisted_7), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.formData.pcrType]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        , _hoisted_7), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.formData.form_type]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
           "class": "form-check-label",
-          "for": pcrType
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pcrType.toUpperCase()), 9
+          "for": form_type
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(form_type.toUpperCase()), 9
         /* TEXT, PROPS */
         , _hoisted_8)]);
       }), 128
       /* KEYED_FRAGMENT */
-      )), $data.formData.pcrType !== 'dpcr' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_ImmediateSupervisorPicker, {
+      )), $data.formData.form_type !== 'dpcr' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_ImmediateSupervisorPicker, {
         key: 0,
         "class": "mt-2",
         label: "Immediate Supervisor",
         onPickedEmployee: _cache[1] || (_cache[1] = function ($event) {
           return $options.setImmediateSupervisor($event);
         })
-      })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.formData.pcrType !== 'dpcr' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DepartmentHeadPicker, {
+      })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.formData.form_type !== 'dpcr' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DepartmentHeadPicker, {
         key: 1,
         "class": "mt-2",
         label: "Department Head",

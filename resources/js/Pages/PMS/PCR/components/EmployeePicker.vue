@@ -13,6 +13,14 @@ export default {
       employeePicked: {},
     };
   },
+  watch: {
+    employeeSearch(newValue, oldValue) {
+      if (!newValue) {
+        this.employeeSearchResults = []
+        this.$emit("pickedEmployee", {});
+      }
+    },
+  },
   methods: {
     getEmployees() {
       axios
